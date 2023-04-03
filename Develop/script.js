@@ -1,20 +1,22 @@
-var today = moment();
+	
+	//calling in moment.js
+	var today = moment();
 	
 
-	
 
-	$(document).ready(function(){
+  // Display the current date and time on the paragraph with an id of "currentDay"
+ $('#currentDay').text(today.format('LLLL')); // this is going to show day of the week, date and time
 
-	    $("#currentDay").text(moment().format("dddd, MMMM Do")); 
 
-	    $(".saveBtn").on("click", function(){
-        
-	        var plannerText = $(this).siblings(".description").val();
-	        var time = $(this).parent().attr("id");
-	        localStorage.setItem(time, plannerText);
-	
+//  this is adding a event listener so you can save
+    $('.saveBtn').on('click', function () {
+    var textValue = $(this).siblings('.description').val();
+  // get the id attribute of the parent div element
+    var timeKey = $(this).parent().attr('id');
 
-	    }); 
+  // save in local storage
+    localStorage.setItem(timeKey, textValue);
+}); 
 
 		$("#6 .description").val(localStorage.getItem("6"));
 	    $("#7 .description").val(localStorage.getItem("7"));
@@ -35,27 +37,19 @@ var today = moment();
 
 
 
+		var currentHour = moment().format('H');
+		$(".time-block").each(function() {
+			if (parseInt(currentHour) === parseInt(this.id)) {
+				$(this).addClass("present");
+			} else if (parseInt(currentHour) > parseInt(this.id)) {
+				$(this).addClass("past");
+			} else {
+				$(this).addClass("future");
+			}
+		})
 
-	    function timeChange(){
-	        var currentHour = moment().hour(); 
-	        
-	        $('.time-block').each(function(){
-	            var idTime = parseInt($(this).attr("id"));
-	            if (idTime < currentHour){
-	                $(this).addClass("past");
-	            } else if (idTime === currentHour){
-	                $(this).addClass("present");
-	                $(this).removeClass("past");
-	            } else {$(this).addClass("future");
-	            $(this).removeClass("past");
-	            $(this).removeClass("present");
-	            }
-	        })
-	    }
-	    timeChange();
-	    var timeInt = setInterval(timeChange, 1000);
 	
 
 	
 
-	});
+	
